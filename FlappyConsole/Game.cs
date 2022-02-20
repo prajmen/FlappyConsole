@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-
+﻿
 namespace FlappyConsole
 {
     public class Game
     {
-        public ConsoleKeyInfo keypress = new();
+        public ConsoleKeyInfo keypress = new ();
         public char[,] GameGrid { get; set; }
         public int GridLength { get; set; } = 64;
         public int GridHeight { get; set; } = 12;
@@ -21,7 +15,7 @@ namespace FlappyConsole
         public Game()
         {
             ObstacleTimer = 15;
-            GameGrid = new char[GridHeight, GridLength];
+            GameGrid = new char[GridHeight,GridLength];
             Player = new();
         }
         public bool NewFrame()
@@ -64,7 +58,7 @@ namespace FlappyConsole
                         GameGrid[i, j] = '|';
                     }
                     else
-                        GameGrid[i, j] = ' ';
+                    GameGrid[i, j] = ' ';
                 }
             }
         }
@@ -85,7 +79,7 @@ namespace FlappyConsole
 
         public void GenerateObstacle()
         {
-            Obstacles.Add(new Obstacle(GameGrid.GetLength(1) - 1, GameGrid.GetLength(0)));
+            Obstacles.Add(new Obstacle(GameGrid.GetLength(1) - 1, GameGrid.GetLength(0)));       
         }
 
 
@@ -111,7 +105,7 @@ namespace FlappyConsole
         {
             Player.SetPlayerCoordinates();
 
-            if (Player.PositionY <= GridHeight - 1)
+            if (Player.PositionY <= GridHeight-1)
             {
                 if (GameGrid[Player.PositionY, Player.PositionX] == ' ')
                 {
@@ -122,7 +116,7 @@ namespace FlappyConsole
                     GameOver = true;
                 }
             }
-
+           
             else
             {
                 GameOver = true;
@@ -146,7 +140,7 @@ namespace FlappyConsole
                 for (int j = 0; j < GameGrid.GetLength(1); j++)
                 {
 
-                    Console.Write(GameGrid[i, j]);
+                    Console.Write(GameGrid[i,j]);
                 }
 
                 Console.Write("\n");
