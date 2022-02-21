@@ -1,5 +1,4 @@
-﻿
-namespace FlappyConsole
+﻿namespace FlappyConsole
 {
     public class Obstacle
     {

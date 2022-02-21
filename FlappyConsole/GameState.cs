@@ -1,11 +1,9 @@
-﻿
-namespace FlappyConsole
+﻿namespace FlappyConsole
 {
     public class GameState
     {
         public Game? Game { get; set; }
         public int HighestScore { get; set; }
-
 
         public void StartScreen()
         {
@@ -38,14 +36,12 @@ namespace FlappyConsole
             NewGame();
         }
 
-
         public void NewGame()
         {
             Game = new Game();
 
             while (true)
             {
-                Game.CheckInput();
                 if (!Game.NewFrame())
                 {
                     break;

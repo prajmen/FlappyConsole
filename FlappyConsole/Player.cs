@@ -1,5 +1,4 @@
-﻿
-namespace FlappyConsole
+﻿namespace FlappyConsole
 {
     public class Player
     {
@@ -7,7 +6,6 @@ namespace FlappyConsole
         public int PositionY { get; set; }
         public bool IsFlying { get; set; }
         public int HangTime { get; set; }
-        public bool GameOver { get; set; }
         public int Points { get; set; }
 
         public Player()

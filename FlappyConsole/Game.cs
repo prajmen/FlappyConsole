@@ -1,9 +1,11 @@
-﻿
-namespace FlappyConsole
+﻿namespace FlappyConsole
 {
     public class Game
     {
-        public ConsoleKeyInfo keypress = new ();
+        private readonly char[,] _emptyGameGrid;
+        private readonly string _topBottomBorder;
+
+        public ConsoleKeyInfo Keypress = new ();
         public char[,] GameGrid { get; set; }
         public int GridLength { get; set; } = 64;
         public int GridHeight { get; set; } = 12;
@@ -11,15 +13,18 @@ namespace FlappyConsole
         public int ObstacleTimer { get; set; }
         public Player Player { get; set; }
         public bool GameOver { get; set; }
-
+        
         public Game()
         {
             ObstacleTimer = 15;
             GameGrid = new char[GridHeight,GridLength];
             Player = new();
+            _topBottomBorder = String.Concat(Enumerable.Repeat("|", GridLength));
+            _emptyGameGrid = GenerateEmptyGameGrid();
         }
         public bool NewFrame()
         {
+            CheckInput();
             ObstacleTimer++;
 
             if (ObstacleTimer > 15)
@@ -33,7 +38,8 @@ namespace FlappyConsole
                 obstacle.XPosition--;
             }
 
-            GenerateEmptyGameGrid();
+            GameGrid = _emptyGameGrid.Clone() as char[,];
+
             PaintObstacles();
             SetPlayer();
 
@@ -47,43 +53,44 @@ namespace FlappyConsole
                 return true;
             }
         }
-        public void GenerateEmptyGameGrid()
+        private void CheckInput()
         {
+            while (Console.KeyAvailable)
+            {
+                Keypress = Console.ReadKey(true);
+
+                if (Keypress.Key == ConsoleKey.Spacebar)
+                {
+                    Player.Fly();
+                }
+            }
+        }
+
+        private char[,] GenerateEmptyGameGrid()
+        {
+            char[,] gameGrid = new char[GridHeight, GridLength];
             for (int i = 0; i < GridHeight; i++)
             {
                 for (int j = 0; j < GridLength; j++)
                 {
                     if (j == 0 || j == (GridLength - 1))
                     {
-                        GameGrid[i, j] = '|';
+                        gameGrid[i, j] = '|';
                     }
                     else
-                    GameGrid[i, j] = ' ';
+                        gameGrid[i, j] = ' ';
                 }
             }
+
+            return gameGrid;
         }
 
-        public void CheckInput()
-        {
-            while (Console.KeyAvailable)
-            {
-                keypress = Console.ReadKey(true);
-
-                if (keypress.Key == ConsoleKey.Spacebar)
-                {
-
-                    Player.Fly();
-                }
-            }
-        }
-
-        public void GenerateObstacle()
+        private void GenerateObstacle()
         {
             Obstacles.Add(new Obstacle(GameGrid.GetLength(1) - 1, GameGrid.GetLength(0)));       
         }
 
-
-        public void PaintObstacles()
+        private void PaintObstacles()
         {
             foreach (var obstacle in Obstacles.ToList())
             {
@@ -101,7 +108,7 @@ namespace FlappyConsole
             }
         }
 
-        public void SetPlayer()
+        private void SetPlayer()
         {
             Player.SetPlayerCoordinates();
 
@@ -128,12 +135,10 @@ namespace FlappyConsole
             }
         }
 
-        public void GenerateNewView()
+        private void GenerateNewView()
         {
             Console.Clear();
-            string topBottomBorder = String.Concat(Enumerable.Repeat("|", GridLength));
-
-            Console.WriteLine(topBottomBorder);
+            Console.WriteLine(_topBottomBorder);
 
             for (int i = 0; i < GameGrid.GetLength(0); i++)
             {
@@ -145,7 +150,7 @@ namespace FlappyConsole
 
                 Console.Write("\n");
             }
-            Console.WriteLine(topBottomBorder);
+            Console.WriteLine(_topBottomBorder);
 
             Console.WriteLine("\nPoints: " + Player.Points);
         }
