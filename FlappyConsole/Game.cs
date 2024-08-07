@@ -94,17 +94,18 @@ namespace FlappyConsole
 
         private void PaintObstacles()
         {
-            foreach (var obstacle in Obstacles.ToList())
+            for (int i = Obstacles.Count - 1; i >= 0; i--)
             {
+                var obstacle = Obstacles[i];
                 if (obstacle.XPosition < 0)
                 {
-                    Obstacles.Remove(obstacle);
+                    Obstacles.RemoveAt(i);
                 }
                 else
                 {
-                    for (int i = 0; i < GridHeight; i++)
+                    for (int j = 0; j < GridHeight; j++)
                     {
-                        GameGrid[i, obstacle.XPosition] = obstacle.YPositions[i];
+                        GameGrid[j, obstacle.XPosition] = obstacle.YPositions[j];
                     }
                 }
             }
@@ -114,7 +115,7 @@ namespace FlappyConsole
         {
             Player.SetPlayerCoordinates();
 
-            if (Player.PositionY <= GridHeight-1)
+            if (Player.PositionY < GridHeight)
             {
                 if (GameGrid[Player.PositionY, Player.PositionX] == ' ')
                 {
@@ -125,13 +126,12 @@ namespace FlappyConsole
                     GameOver = true;
                 }
             }
-           
             else
             {
                 GameOver = true;
             }
 
-            if (GameGrid[0, Player.PositionX] == 'X' || GameGrid[GridHeight - 1, Player.PositionX] == 'X')
+            if (!GameOver && (GameGrid[0, Player.PositionX] == 'X' || GameGrid[GridHeight - 1, Player.PositionX] == 'X'))
             {
                 Player.AddPoint();
             }
