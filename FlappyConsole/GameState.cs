@@ -1,4 +1,6 @@
-﻿namespace FlappyConsole
+﻿using System.Diagnostics;
+
+namespace FlappyConsole
 {
     public class GameState
     {
@@ -38,16 +40,30 @@
 
         public void NewGame()
         {
+            Console.Clear();
             Game = new Game();
+            const int targetFps = 15;
+            const int frameTime = 1000 / targetFps; // Time per frame in milliseconds
+
+            var stopwatch = new Stopwatch();
 
             while (true)
             {
+                stopwatch.Restart();
+
                 if (!Game.NewFrame())
                 {
                     break;
                 }
 
-                Thread.Sleep(20);
+                // Calculate the time to sleep to maintain the target frame rate
+                var elapsed = stopwatch.ElapsedMilliseconds;
+                var sleepTime = frameTime - elapsed;
+
+                if (sleepTime > 0)
+                {
+                    Thread.Sleep((int)sleepTime);
+                }
             }
 
             if (Game.Player.Points > HighestScore)

@@ -22,24 +22,16 @@
 
         public void SetPlayerCoordinates()
         {
-            if (IsFlying || HangTime < 2)
+            if (IsFlying || HangTime < 4)
             {
                 if (HangTime == 0)
                 {
                     IsFlying = false;
-                    HangTime = 2;
+                    HangTime = 4;
                 }
                 else
                 {
-                    if (PositionY == 0)
-                    {
-                        PositionY = 0;
-                    }
-                    else
-                    {
-                        PositionY--;
-                    }
-
+                    PositionY = Math.Max(0, PositionY - 1);
                     HangTime--;
                 }
             }

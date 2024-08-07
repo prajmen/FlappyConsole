@@ -1,4 +1,6 @@
-﻿namespace FlappyConsole
+﻿using System.Text;
+
+namespace FlappyConsole
 {
     public class Game
     {
@@ -137,22 +139,28 @@
 
         private void GenerateNewView()
         {
-            Console.Clear();
-            Console.WriteLine(_topBottomBorder);
+            var stringBuilder = new StringBuilder();
 
+            // Build the top border
+            stringBuilder.AppendLine(_topBottomBorder);
+
+            // Build the game grid
             for (int i = 0; i < GameGrid.GetLength(0); i++)
             {
                 for (int j = 0; j < GameGrid.GetLength(1); j++)
                 {
-
-                    Console.Write(GameGrid[i,j]);
+                    stringBuilder.Append(GameGrid[i, j]);
                 }
-
-                Console.Write("\n");
+                stringBuilder.AppendLine();
             }
-            Console.WriteLine(_topBottomBorder);
 
-            Console.WriteLine("\nPoints: " + Player.Points);
+            // Build the bottom border and points display
+            stringBuilder.AppendLine(_topBottomBorder);
+            stringBuilder.AppendLine($"\nPoints: {Player.Points}");
+
+            // Move the cursor to the top-left corner and write the frame content
+            Console.SetCursorPosition(0, 0);
+            Console.Write(stringBuilder.ToString());
         }
     }
 }

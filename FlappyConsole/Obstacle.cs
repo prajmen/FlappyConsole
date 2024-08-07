@@ -10,20 +10,19 @@
             XPosition = xPosition;
             YPositions = new char[xLength];
 
-            int number = Random.Shared.Next(0, xLength - 3);
+            int number = Random.Shared.Next(0, xLength - 4);
 
+            // Fill the array with 'X' initially
             for (int i = 0; i < xLength; i++)
             {
-                if (number == i || number + 1 == i || number + 2 == i)
-                {
-                    YPositions[i] = ' ';
-                }
-                else
-                {
-                    YPositions[i] = 'X';
-                }
-
+                YPositions[i] = 'X';
             }
+
+            // Create the gap
+            YPositions[number] = ' ';
+            YPositions[number + 1] = ' ';
+            YPositions[number + 2] = ' ';
+            YPositions[number + 3] = ' ';
         }
     }
 }
