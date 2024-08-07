@@ -57,7 +57,7 @@ namespace FlappyConsole
         }
         private void CheckInput()
         {
-            while (Console.KeyAvailable)
+            if (Console.KeyAvailable)
             {
                 Keypress = Console.ReadKey(true);
 
